@@ -1,7 +1,6 @@
 import React,{useState, useEffect,useRef} from 'react';
 
 import {  FiEdit, FiPower, FiTrash2 } from 'react-icons/fi';
-import { parseISO } from 'date-fns'; 
 import { toDate} from 'date-fns-tz';
 
 
