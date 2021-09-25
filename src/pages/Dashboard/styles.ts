@@ -1,7 +1,5 @@
 import styled, { keyframes } from 'styled-components';
-import { shade } from 'polished';
 
-import signInBackground from '../../assets/sign-in-background.png';
 export const Container = styled.div``
 
 export const Header = styled.header`
@@ -125,16 +123,6 @@ export const RegistrationUpdate = styled.div`
 `;
 
 
-const appearFromLeft = keyframes`
-  from {
-    opacity: 0;
-    transform: translateX(-50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-`;
 
 
 export const List = styled.div`

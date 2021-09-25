@@ -1,24 +1,22 @@
 import React,{useState, useEffect,useRef} from 'react';
-import axios from 'axios';
-import { FiLogIn, FiMail, FiLock, FiEdit, FiPower, FiTrash, FiTrash2 } from 'react-icons/fi';
+
+import {  FiEdit, FiPower, FiTrash2 } from 'react-icons/fi';
 import { parseISO } from 'date-fns'; 
-import { zonedTimeToUtc,format} from 'date-fns-tz';
+import { toDate} from 'date-fns-tz';
 
 
 import Table from '../../components/tabela/index'
-import { Link } from "react-router-dom";
 
 import Button from '../../components/Button';
-import { useAuth,AuthProvider } from "../../hooks/auth";
+import { useAuth } from "../../hooks/auth";
 
 
 import logoImg from '../../assets/Tasks-trasnparente.png';
 
 import api from '../../services/api'
 import { Container,Profile,Header,HeaderContent,Section,List,RegistrationUpdate} from './styles';
-import { icons } from 'react-icons/lib';
 import { Content } from '../SignIn/styles';
-import { toDate } from 'date-fns-tz/esm';
+
 
 interface Tasks {
     id:string;
@@ -38,10 +36,7 @@ const Dashboard: React.FC = () =>  {
     
     const [idTasks,setIdTasks]=useState('')
     const [modoEditar,setModoEditar] = useState(false)
-    const parsedDate = parseISO('2018-04-01 16:00:00');
-    const znDate = zonedTimeToUtc(parsedDate, 'America/Sao_Paulo');
     const { signOut, user } = useAuth();
-    const nomeuser = user.name
     
     
     const [tasks, setTasks] = useState<Tasks[]>([])
@@ -59,7 +54,7 @@ const Dashboard: React.FC = () =>  {
             setTasks(response.data)
           
           })
-      }, [])
+      }, [goToken,user.id])
     
     async function addTasks(): Promise<void> {
         api.defaults.headers.Authorization = `Bearer ${goToken}`;
