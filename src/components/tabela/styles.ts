@@ -20,7 +20,9 @@ table {
 td,  th {
   border: 1px solid #ddd;
   padding: 8px;
+  
 }
+
 
 tr:nth-child(even){background-color: #f2f2f2;}
 tr:hover {background-color: #ddd;}
