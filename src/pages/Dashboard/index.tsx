@@ -200,7 +200,7 @@ return (
                         <option value="DONE">DONE</option>
                         
                     </select>
-                    <Button type="submit" >Editar</Button>
+                    <Button type="button" >Editar</Button>
                 </form>
                 
                 :    
