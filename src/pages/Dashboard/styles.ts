@@ -79,6 +79,12 @@ export const Section  = styled.div`
   option{
     font-size: 12px;
   }
+
+  @media (max-width: 748px) {
+    display: flex;
+    flex-direction: column;
+
+  }
   
 `;
 export const Profile = styled.div`
@@ -128,6 +134,28 @@ export const RegistrationUpdate = styled.div`
 export const List = styled.div`
   flex: 1;
   flex-direction: column;
- 
+  margin-left: 7px;
+  p {
+    display:none;
+  }
+
+  @media (max-width: 748px) {
+    
+    p {
+      display:flex;
+      margin-top:10px;
+      text-align: center;
+    }
+    font-size: 15px;
+    margin-top:7px;
+    overflow: auto;
+
+    
+
+  }
+  @media (max-width: 276px) {
+    font-size: 10px;
+    overflow: auto;
+  }
  
 `;

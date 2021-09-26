@@ -22,6 +22,10 @@ td,  th {
   padding: 8px;
   
 }
+th {
+  padding: 3px;
+}
+
 
 
 tr:nth-child(even){background-color: #f2f2f2;}
