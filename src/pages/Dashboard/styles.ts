@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 
-export const Container = styled.div``
+export const Container = styled.div`
+.InputH{
+    height: 17px;
+  }
+`
 
 export const Header = styled.header`
   padding: 32px 0;
@@ -114,10 +118,15 @@ export const Profile = styled.div`
     }
   }
 `;
+
 export const Content = styled.main`
+  #InputH{
+    height: 20px;
+  }
   max-width: 1120px;
   margin: 64px auto;
   display: flex;
+  
 `;
 export const RegistrationUpdate = styled.div`
   flex: 1;

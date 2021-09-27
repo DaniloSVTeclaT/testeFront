@@ -1,7 +1,8 @@
-import React,{useState, useEffect,useRef} from 'react';
-
+import React,{useState, useEffect,useCallback} from 'react';
+import { Form } from '@unform/web'
 import {  FiEdit, FiPower, FiTrash2 } from 'react-icons/fi';
 import { toDate} from 'date-fns-tz';
+//import { FormHandles } from '@unform/core';
 
 
 import Table from '../../components/tabela/index'
@@ -15,6 +16,7 @@ import logoImg from '../../assets/Tasks-trasnparente.png';
 import api from '../../services/api'
 import { Container,Profile,Header,HeaderContent,Section,List,RegistrationUpdate} from './styles';
 import { Content } from '../SignIn/styles';
+import Input from '../../components/Input';
 
 
 interface Tasks {
@@ -25,9 +27,17 @@ interface Tasks {
     updated_at:Date;
     status:string;
 }
+// interface CadastraFormData{
+//     name:string;
+//     description:string;
+//     user_id: string;
+//     status:string;
+//     braba:string;
+// }
 
 const Dashboard: React.FC = () =>  {
-    const inputRef = useRef<HTMLInputElement>(null);
+   // const formRef = useRef<FormHandles>(null);
+
     const goToken = localStorage.getItem('@GoBarber:token');
     const [nameTasks,setNameTasks] = useState('')
     const [DescriptionTask,setDescriptionTasks] = useState('')
@@ -54,9 +64,11 @@ const Dashboard: React.FC = () =>  {
           
           })
       }, [goToken,user.id])
-    
-    async function addTasks(): Promise<void> {
+    const addTasks = useCallback(async()=>{
         api.defaults.headers.Authorization = `Bearer ${goToken}`;
+        
+
+        //alert (data.name)
         await api.post('tasks', {
             name:nameTasks,
             description:DescriptionTask,
@@ -64,7 +76,7 @@ const Dashboard: React.FC = () =>  {
             status:statusTasks,
            
         });
-    
+        
 
         await  api.get(`tasks/users/${user.id}`,{
             headers:{
@@ -79,8 +91,33 @@ const Dashboard: React.FC = () =>  {
         setNameTasks('')
         setDescriptionTasks('')
         setStatusTasks('')
+    },[DescriptionTask,goToken,nameTasks,statusTasks,user.id])
+    // async function addTasks(): Promise<void> {
+    //     api.defaults.headers.Authorization = `Bearer ${goToken}`;
+    //     await api.post('tasks', {
+    //         name:nameTasks,
+    //         description:DescriptionTask,
+    //         user_id: user.id,
+    //         status:statusTasks,
+           
+    //     });
+    
+
+    //     await  api.get(`tasks/users/${user.id}`,{
+    //         headers:{
+    //           Authorization: `Bearer ${goToken}`
+    //         }
+    //        }).then(response => {
+    //           setTasks(response.data)
+             
+    //         });
+
+    //     setIdTasks('')
+    //     setNameTasks('')
+    //     setDescriptionTasks('')
+    //     setStatusTasks('')
        
-    }
+    // }
 
     async function removeTasks(id:string) {
         
@@ -170,78 +207,91 @@ return (
             <RegistrationUpdate>   
           
                 
-                 {modoEditar ?    
-                    <form name='Editar' onSubmit={updateTasks}>  
-                    <h1>Editar Tarefas</h1>
+                {modoEditar ?    
+
+                <Form  onSubmit={updateTasks}>
                     
-                    <input  value={nameTasks}
+                        <h1>Editar Tarefas</h1>
+                        
+                        <Input  
 
-                        onChange={e => setNameTasks(e.target.value)} 
-                        type="text" 
-                        placeholder="Nome tarefa"
-                        
-                    />
-                    <input 
-                        onChange={e => setDescriptionTasks(e.target.value)} 
-                        type="text" 
-                        placeholder="Breve Descrição"
-                        value={DescriptionTask}
-                    />
+                            name="nome"
+                           
+                            className={"InputH"}
+                            value={nameTasks}
 
-                    <select onChange={e => 
-                        setStatusTasks(e.target.value)} 
-                        value={statusTasks} 
-                        
-                        id="selection_text" 
-                        name="atividades"
-                        >
-                        <option value="NOT_DONE">NOT_DONE</option>
-                        <option value="IN_PROGRESS">IN_PROGRESS</option>
-                        <option value="DONE">DONE</option>
-                        
-                    </select>
-                    <Button type="button" >Editar</Button>
-                </form>
+                            onChange={e => setNameTasks(e.target.value)} 
+                            type="text" 
+                            placeholder="Nome tarefa"
+                            
+                        />
+                        <Input 
+                            name="descricao"
+                            className={"InputH"}
+                            onChange={e => setDescriptionTasks(e.target.value)} 
+                            type="text" 
+                            placeholder="Breve Descrição"
+                            value={DescriptionTask}
+                        />
+
+                        <select onChange={e => 
+                            setStatusTasks(e.target.value)} 
+                            value={statusTasks} 
+                            
+                            id="selection_text" 
+                            name="atividades"
+                            >
+                            <option value="NOT_DONE">NOT_DONE</option>
+                            <option value="IN_PROGRESS">IN_PROGRESS</option>
+                            <option value="DONE">DONE</option>
+                            
+                        </select>
+                    <Button type="submit" >Editar</Button>
+                </Form>
                 
                 :    
-                
-                <form onSubmit={addTasks}>  
-                <h1>Cadastrar Tarefas</h1>
-                
-                <input 
-                    ref={inputRef}
-                    onChange={e => setNameTasks(e.target.value)} 
-                    type="text" 
-                    placeholder="Nome tarefa"
-                   
-                />
-                <input 
-                    onChange={e => setDescriptionTasks(e.target.value)} 
-                    type="text" 
-                    placeholder="Breve Descrição"
-                    
-                />
-                
+                <Form  onSubmit={addTasks}>
+               
+                        <h1>Cadastrar Tarefas</h1>
+                        
+                        <Input 
 
-                <select onChange={e => 
-                    setStatusTasks(e.target.value)} 
-                    id="selection_text" 
-                    name="atividades"
-                >
-                    <option value="NOT_DONE">NOT_DONE</option>
-                    <option value="IN_PROGRESS">IN_PROGRESS</option>
-                    <option value="DONE">DONE</option>
-                    
-                </select>
-                <Button type="submit" >Cadastrar</Button>
-                </form>}
+                            name="nome"
+                            className={"InputH"}
+                            onChange={e => setNameTasks(e.target.value)} 
+                            type="text" 
+                            placeholder="Nome tarefa"
+                        
+                        />
+                        <Input 
+                            name="descricao"
+                            className={"InputH"}
+                            onChange={e => setDescriptionTasks(e.target.value)} 
+                            type="text" 
+                            placeholder="Breve Descrição"
+                            
+                        />
+                        
+
+                        <select onChange={e => 
+                            setStatusTasks(e.target.value)} 
+                            id="selection_text" 
+                            name="atividades"
+                        >
+                            <option value="NOT_DONE">NOT_DONE</option>
+                            <option value="IN_PROGRESS">IN_PROGRESS</option>
+                            <option value="DONE">DONE</option>
+                            
+                        </select>
+                        <Button type="submit" >Cadastrar</Button>
+                </Form>}
                 
                 </RegistrationUpdate>  
                 
           </Content>
         <Content>  
             <List> 
-                <form>
+            
 
                     <p>LISTA DE TAREFAS:</p>
                     
@@ -278,7 +328,7 @@ return (
                                 }
                     
                     </Table>
-                </form> 
+                    
             </List> 
          </Content>
       </Section>                              
