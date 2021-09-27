@@ -256,7 +256,7 @@ return (
                         <h1>Cadastrar Tarefas</h1>
                         
                         <Input 
-
+                            value={nameTasks}
                             name="nome"
                             className={"InputH"}
                             onChange={e => setNameTasks(e.target.value)} 
@@ -270,7 +270,7 @@ return (
                             onChange={e => setDescriptionTasks(e.target.value)} 
                             type="text" 
                             placeholder="Breve Descrição"
-                            
+                            value={DescriptionTask}
                         />
                         
 
