@@ -171,11 +171,12 @@ const Dashboard: React.FC = () =>  {
               setTasks(response.data)
              
             });
-            setModoEditar(false)
             setIdTasks('')
             setNameTasks('')
             setDescriptionTasks('')
             setStatusTasks('')
+            setModoEditar(false)
+     
     }
 
 
